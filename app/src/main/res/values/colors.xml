@@ -1,0 +1,20 @@
+<resources>
+    <color name="background_light">#FDF3F3</color>
+    <color name="topbar_purple">#7864A5</color>
+    <color name="tab_selected">#FFA8A8</color>
+    <color name="tab_unselected">#FFFFFF</color>
+    <color name="chat_name">#000000</color>
+    <color name="chat_message">#999999</color>
+    <color name="chat_time">#999999</color>
+    <color name="unread_badge">#F24E5C</color>
+    <color name="bg_light">#FCECEC</color>
+    <color name="card_purple">#7864A5</color>
+    <color name="button_pink">#FFA8A8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="soft_pink">#FDE8E6</color>
+    <color name="main_bg">#4F4C74</color>
+    <color name="coral">#F88C88</color>
+    <color name="dark_pink">#E94682</color>
+    <!-- Optional if you want to design the wave shape -->
+    <color name="wave_overlay">#C1B6D3</color>
+</resources>
