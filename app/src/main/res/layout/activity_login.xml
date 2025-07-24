@@ -4,25 +4,31 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:orientation="vertical"
-    android:gravity="center"
+    android:layout_gravity="center_horizontal"
     android:background="@color/white">
+
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/popmedium"
         android:text="Login"
+        android:textColor="#2A4ECA"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginBottom="32dp" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:fontFamily="@font/popregular"
         android:inputType="textEmailAddress"
         android:padding="12dp"
+        android:layout_marginTop="140dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/edit_text"/>
 
@@ -31,6 +37,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:fontFamily="@font/popregular"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:background="@drawable/edit_text"
+        android:layout_marginBottom="24dp" />
+    <EditText
+        android:id="@+id/etRoomCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room Code"
+        android:fontFamily="@font/popregular"
         android:inputType="textPassword"
         android:padding="12dp"
         android:background="@drawable/edit_text"
@@ -39,10 +56,36 @@
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
+        android:layout_height="60dp"
+        android:text="Log In"
+        android:fontFamily="@font/popmedium"
+        android:textSize="15dp"
         android:backgroundTint="#2196F3"
         android:textColor="#FFFFFF"
         android:padding="12dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don’t have account? "
+            android:textSize="14sp"
+            android:textColor="#888888"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textSize="14sp"
+            android:textColor="#3B55E6"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
 
 </LinearLayout>
