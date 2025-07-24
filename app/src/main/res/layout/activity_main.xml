@@ -58,7 +58,7 @@
                 app:layout_constraintTop_toTopOf="@+id/header_image" />
 
             <Button
-                android:id="@+id/startButton"
+                android:id="@+id/btnStartButton"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="60dp"
