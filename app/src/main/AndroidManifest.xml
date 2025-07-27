@@ -23,7 +23,7 @@
         </activity>
 
 <!--        Login Activity Entry Point-->
-        <activity android:name=".LoginActivity"
+        <activity android:name=".MainActivity$LoginActivity"
                   android:exported="false">
         </activity>
 
