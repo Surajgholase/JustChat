@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         tvLogin.setOnClickListener(v -> {
-            startActivity(new Intent(SignUpActivity.this, MainActivity.LoginActivity.class));
+            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
             finish();
         });
     }
@@ -82,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                             .set(userMap)
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(SignUpActivity.this, "User Registered!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUpActivity.this, MainActivity.LoginActivity.class));
+                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                                 finish();
                             })
                             .addOnFailureListener(e -> Toast.makeText(SignUpActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String errorMsg = task.getException().getMessage();
                 if (errorMsg != null && errorMsg.contains("email address is already in use")) {
                     Toast.makeText(SignUpActivity.this, "Email already registered. Please log in instead.", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.LoginActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 } else {
                     Toast.makeText(SignUpActivity.this, "Registration Failed: " + errorMsg, Toast.LENGTH_SHORT).show();
                 }
