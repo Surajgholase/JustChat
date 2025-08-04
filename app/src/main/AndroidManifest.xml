@@ -23,13 +23,19 @@
         </activity>
 
 <!--        Login Activity Entry Point-->
-        <activity android:name=".MainActivity$LoginActivity"
+        <activity android:name=".LoginActivity"
                   android:exported="false">
         </activity>
 
         <!--        SignUp Activity Entry Point-->
         <activity android:name=".SignUpActivity"
             android:exported="false">
+        </activity>
+
+        <!--        Home Activity Entry Point-->
+        <activity android:name=".HomeActivity"
+            android:exported="false">
+
         </activity>
 
 

@@ -1,152 +1,129 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FDF3F3"
-    android:padding="16dp">
+    tools:context=".HomeActivity">
 
-    <!-- Top Bar -->
-
-    <!-- Tabs -->
+    <!-- HEADER CARD -->
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#7864A5"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/menu"
-            android:tint="#FFFFFF" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="41dp"
-            android:layout_weight="1"
-            android:fontFamily="cursive"
-            android:gravity="center"
-            android:text="Chattie"
-            android:textColor="#FFFFFF"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/camera"
-            android:tint="#FFFFFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:background="#7864A5"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/header_card_background"
+        android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
+        <ImageView
+            android:id="@+id/menu_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Menu"
+            android:src="@drawable/menu"
+            app:tint="#2196F3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="LOGO"
+            android:textColor="#808080"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Search"
+            android:src="@drawable/search"
+            app:tint="#2196F3" />
     </LinearLayout>
 
-    <!-- White container -->
-    <LinearLayout
+    <!-- MAIN CHAT CONTENT AREA -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp">
 
-        <!-- Recent Chats Header -->
+        <!-- RecyclerView fills above input -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/messageInputBar"
+            android:padding="8dp" />
+
+        <!-- Message Input Bar anchored to bottom -->
         <LinearLayout
+            android:id="@+id/messageInputBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+            android:background="@drawable/chat_input_background"
+            android:backgroundTint="@color/chatsection"
+            android:elevation="4dp"
+            android:padding="12dp">
 
-            <TextView
-                android:text="Recent Chats"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="20sp"
+            <EditText
+                android:id="@+id/messageEditText"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:background="@android:color/transparent"
+                android:hint="Write a message"
+                android:textColor="#000"
+                android:textSize="16sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/search"
-                android:tint="#999999" />
+                android:id="@+id/sendButton"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Send"
+                android:src="@drawable/ic_send"
+                app:tint="#2196F3" />
         </LinearLayout>
+    </RelativeLayout>
 
-        <!-- Chat Item Example (Repeat for other users) -->
-        <LinearLayout
-            android:layout_width="match_parent"
+    <!-- BOTTOM APP BAR -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/bottomnav"
+        app:fabAlignmentMode="end"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="50dp">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingVertical="12dp">
+            android:background="@android:color/transparent"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/boy_profile"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/circle_white"
-                android:scaleType="centerCrop" />
+    <!-- FLOATING ACTION BUTTON -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/floatingbutton"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="end"
+        app:tint="@color/white" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Bella"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:text="Typing..."
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <TextView
-                android:text="2:15"
-                android:textColor="#999999"
-                android:textSize="12sp"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- All Chats Header -->
-        <TextView
-            android:text="All Chats"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Repeat Chat Rows for All Chats (like above) -->
-
-        <!-- Floating Action Button -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/chat"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                 />
-        </FrameLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
