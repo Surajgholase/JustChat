@@ -8,43 +8,67 @@
     tools:context=".HomeActivity">
 
     <!-- HEADER CARD -->
-    <LinearLayout
-        android:id="@+id/header"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/header_card_background"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:layout_height="90dp"
+        android:background="@drawable/">
 
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Menu"
-            android:src="@drawable/menu"
-            app:tint="#2196F3" />
 
-        <TextView
-            android:layout_width="0dp"
+        <!-- Profile Image with glowing online dot -->
+        <FrameLayout
+            android:id="@+id/profile_frame"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_toEndOf="@id/back_button"
+            android:elevation="8dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/profile_shadow_circle"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_pic" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/pulse_online_dot" />
+        </FrameLayout>
+
+        <!-- Name & Status, creatively offset -->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="LOGO"
-            android:textColor="#808080"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@id/profile_frame"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Search"
-            android:src="@drawable/search"
-            app:tint="#2196F3" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fati Lara"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:text="Active now"
+                android:textColor="#12C888"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
     <!-- MAIN CHAT CONTENT AREA -->
     <RelativeLayout
