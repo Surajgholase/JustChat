@@ -6,118 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
+    
+        
 
-    <!-- HEADER CARD -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/">
+        android:layout_height="700dp"
+        android:id="@+id/main_frame_layout"
+        />
 
 
-        <!-- Profile Image with glowing online dot -->
-        <FrameLayout
-            android:id="@+id/profile_frame"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:layout_toEndOf="@id/back_button"
-            android:elevation="8dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/profile_shadow_circle"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile_pic" />
-
-            <View
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/pulse_online_dot" />
-        </FrameLayout>
-
-        <!-- Name & Status, creatively offset -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@id/profile_frame"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fati Lara"
-                android:textColor="#222222"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-2dp"
-                android:text="Active now"
-                android:textColor="#12C888"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
-    <!-- MAIN CHAT CONTENT AREA -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="80dp">
-
-        <!-- RecyclerView fills above input -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/messageInputBar"
-            android:padding="8dp" />
-
-        <!-- Message Input Bar anchored to bottom -->
-        <LinearLayout
-            android:id="@+id/messageInputBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
-            android:orientation="horizontal"
-            android:background="@drawable/chat_input_background"
-            android:backgroundTint="@color/chatsection"
-            android:elevation="4dp"
-            android:padding="12dp">
-
-            <EditText
-                android:id="@+id/messageEditText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Write a message"
-                android:textColor="#000"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/sendButton"
-                android:layout_width="25sp"
-                android:layout_height="25sp"
-                android:layout_marginStart="8dp"
-                android:contentDescription="Send"
-                android:src="@drawable/ic_send"
-                app:tint="#2196F3" />
-        </LinearLayout>
-    </RelativeLayout>
 
     <!-- BOTTOM APP BAR -->
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -151,3 +49,7 @@
         app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+

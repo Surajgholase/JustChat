@@ -15,16 +15,18 @@
 <!--        Main Activity Entry Point-->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
 <!--        Login Activity Entry Point-->
         <activity android:name=".LoginActivity"
                   android:exported="false">
+
+
         </activity>
 
         <!--        SignUp Activity Entry Point-->
@@ -34,8 +36,11 @@
 
         <!--        Home Activity Entry Point-->
         <activity android:name=".HomeActivity"
-            android:exported="false">
-
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
