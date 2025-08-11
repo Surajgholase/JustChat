@@ -6,22 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
-    
-        
+
+
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="700dp"
         android:id="@+id/main_frame_layout"
-        />
-
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomAppBar"/>
 
     <!-- BOTTOM APP BAR -->
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/bottomnav"
         app:fabAlignmentMode="end"

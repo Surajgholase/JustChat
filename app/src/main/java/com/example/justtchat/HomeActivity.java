@@ -23,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     ChatFragment chatFragment;
-    ProfileFragment profileFragment;
+     ProfileFragment profileFragment;
 
 
     protected void onCreate(Bundle savedInstanceState){
