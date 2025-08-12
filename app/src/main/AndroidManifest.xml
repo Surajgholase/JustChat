@@ -35,16 +35,15 @@
         </activity>
 
         <!--        Home Activity Entry Point-->
-        <activity android:name=".HomeActivity"
+        <activity
+            android:name=".HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
     </application>
 

@@ -1,102 +1,89 @@
-package com.example.justtchat;;
+package com.example.justtchat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-
-import java.io.IOException;
-
-import static android.app.Activity.RESULT_OK;
+import java.util.UUID;
 
 public class ProfileFragment extends Fragment {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
-
-    private ImageView profileImage, editIcon;
-    private EditText etProfileName;
-    private TextView profileEmail;
-    private LinearLayout editProfileBtn, roomCodeBtn, logoutBtn;
-
-    private Uri imageUri;
+    private ImageView profileImage;
+    private TextView profileName, profileEmail;
+    private LinearLayout btnEditProfile, roomCodeBtn, logoutBtn; // FIX: Changed from Button to LinearLayout
 
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
     private StorageReference storageRef;
-    private FirebaseUser currentUser;
+    private ProgressDialog progressDialog;
+
+    private ActivityResultLauncher<String> pickImageLauncher;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         profileImage = view.findViewById(R.id.profileImage);
-        editIcon = view.findViewById(R.id.editIcon);
-        etProfileName = view.findViewById(R.id.profileName);
+        profileName = view.findViewById(R.id.profileName);
         profileEmail = view.findViewById(R.id.profileEmail);
-        editProfileBtn = view.findViewById(R.id.etName);
+
+        // FIX: Correct type matches XML (LinearLayout)
+        btnEditProfile = view.findViewById(R.id.etName);
         roomCodeBtn = view.findViewById(R.id.etRoomCode);
-        logoutBtn = view.findViewById(R.id.tvLogin);
+        logoutBtn = view.findViewById(R.id.etLogout);
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            String uid = currentUser.getUid();
-            userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
-            storageRef = FirebaseStorage.getInstance().getReference("ProfileImages").child(uid + ".jpg");
-
-            loadUserProfile();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            userRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+        } else {
+            userRef = FirebaseDatabase.getInstance().getReference().child("users").push();
         }
+        storageRef = FirebaseStorage.getInstance().getReference().child("profile_images");
 
-        editIcon.setOnClickListener(v -> openImagePicker());
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Please wait...");
 
-        editProfileBtn.setOnClickListener(v -> {
-            String newName = etProfileName.getText().toString().trim();
-            if (!newName.isEmpty()) {
-                userRef.child("name").setValue(newName);
-                Toast.makeText(getContext(), "Name updated", Toast.LENGTH_SHORT).show();
-            } else {
-                etProfileName.setError("Enter name");
-            }
+        // Activity result launcher for picking images
+        pickImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        uploadProfileImage(uri);
+                    }
+                });
+
+        btnEditProfile.setOnClickListener(v -> {
+            // Launch image picker
+            pickImageLauncher.launch("image/*");
         });
 
         roomCodeBtn.setOnClickListener(v ->
@@ -104,79 +91,74 @@ public class ProfileFragment extends Fragment {
         );
 
         logoutBtn.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
+            mAuth.signOut();
             Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
-            // You may want to redirect to LoginActivity here
+            if (getActivity() != null) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
+            }
         });
+
+        loadUserProfile();
+
+        return view;
     }
 
     private void loadUserProfile() {
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        if (mAuth.getCurrentUser() != null) {
+            String uid = mAuth.getCurrentUser().getUid();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(uid);
+            ref.get().addOnSuccessListener(snapshot -> {
                 if (snapshot.exists()) {
-                    String name = snapshot.child("name").getValue(String.class);
-                    String email = snapshot.child("email").getValue(String.class);
-                    String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
-
-                    etProfileName.setText(name != null ? name : "");
-                    profileEmail.setText(email != null ? email : "");
-
-                    if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
-                        Picasso.get().load(profileImageUrl).into(profileImage);
+                    Object name = snapshot.child("name").getValue();
+                    Object email = snapshot.child("email").getValue();
+                    Object profileUrl = snapshot.child("profileImageUrl").getValue();
+                    if (name != null) profileName.setText(name.toString());
+                    if (email != null) profileEmail.setText(email.toString());
+                    if (profileUrl != null && !profileUrl.toString().isEmpty()) {
+                        Picasso.get().load(profileUrl.toString()).into(profileImage);
                     }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to load user data", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void openImagePicker() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-                profileImage.setImageBitmap(bitmap);
-                uploadImageToFirebase();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            }).addOnFailureListener(e ->
+                    Toast.makeText(getContext(), "Failed to fetch user data.", Toast.LENGTH_SHORT).show()
+            );
         }
     }
 
-    private void uploadImageToFirebase() {
-        if (imageUri != null) {
-            ProgressDialog progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage("Uploading...");
-            progressDialog.show();
+    private void uploadProfileImage(@NonNull Uri fileUri) {
+        if (fileUri == null) return;
+        progressDialog.show();
 
-            storageRef.putFile(imageUri)
-                    .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
-                            .addOnSuccessListener(uri -> {
-                                String downloadUrl = uri.toString();
-                                userRef.child("profileImageUrl").setValue(downloadUrl);
-                                progressDialog.dismiss();
-                                Toast.makeText(getContext(), "Profile image updated", Toast.LENGTH_SHORT).show();
-                            }))
-                    .addOnFailureListener(e -> {
+        String fileName = UUID.randomUUID().toString();
+        StorageReference fileRef = storageRef.child(fileName);
+
+        UploadTask uploadTask = fileRef.putFile(fileUri);
+        uploadTask.addOnSuccessListener(taskSnapshot ->
+                fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String downloadUrl = uri.toString();
+                    if (mAuth.getCurrentUser() != null) {
+                        String uid = mAuth.getCurrentUser().getUid();
+                        DatabaseReference userNode = FirebaseDatabase.getInstance().getReference("users").child(uid);
+                        userNode.child("profileImageUrl").setValue(downloadUrl)
+                                .addOnSuccessListener(aVoid -> {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Profile image updated", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Failed to save profile URL", Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }
+                        Toast.makeText(getContext(), "User not signed in.", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Failed to get download URL.", Toast.LENGTH_SHORT).show();
+                })
+        ).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 }

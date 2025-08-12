@@ -56,10 +56,16 @@ dependencies {
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.firebaseui:firebase-ui-firestore:9.0.0")
 
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-storage")
-    implementation("com.squareup.picasso:picasso:2.71828") // For loading images
+        // Firebase BOM (put a version or use libs if defined)
+        implementation(platform("com.google.firebase:firebase-bom:32.1.0")) // pick a recent BOM version
+        implementation("com.google.firebase:firebase-auth")
+        implementation("com.google.firebase:firebase-database")
+        implementation("com.google.firebase:firebase-storage")
+        implementation("com.firebaseui:firebase-ui-firestore:9.0.0")
+
+        implementation("com.squareup.picasso:picasso:2.71828")
+        implementation("com.intuit.sdp:sdp-android:1.0.6")
+        implementation("com.intuit.ssp:ssp-android:1.0.6")
 
 
 }
