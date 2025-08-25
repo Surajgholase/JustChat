@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.justtchat"
+    namespace = "com.nip.justchat"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.justtchat"
+        applicationId = "com.nip.justchat"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -66,6 +66,13 @@ dependencies {
         implementation("com.squareup.picasso:picasso:2.71828")
         implementation("com.intuit.sdp:sdp-android:1.0.6")
         implementation("com.intuit.ssp:ssp-android:1.0.6")
+
+        implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+        implementation("com.google.firebase:firebase-analytics")
+
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
 
 
 }

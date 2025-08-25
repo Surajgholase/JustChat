@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "264447731171",
-    "project_id": "justtchat",
-    "storage_bucket": "justtchat.firebasestorage.app"
+    "project_number": "578195281525",
+    "project_id": "justchat-1728d",
+    "storage_bucket": "justchat-1728d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:264447731171:android:d59ed4728638675b626cd6",
+        "mobilesdk_app_id": "1:578195281525:android:8112ae6facd270bcf14a3c",
         "android_client_info": {
-          "package_name": "com.example.justtchat"
+          "package_name": "com.nip.justchat"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCPdw95DLSoGAVhBPxHSO9_QEKpsceSBJ8"
+          "current_key": "AIzaSyB27wXJ-ozmtJ5Bka_PJkGaQgNw3lhPmsw"
         }
       ],
       "services": {

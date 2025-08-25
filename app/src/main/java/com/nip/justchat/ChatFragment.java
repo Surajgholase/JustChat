@@ -1,4 +1,4 @@
-package com.example.justtchat;
+package com.nip.justchat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,6 +1,4 @@
-package com.example.justtchat;
-
-import android.provider.ContactsContract;
+package com.nip.justchat;
 
 public class Message {
     private String text;
