@@ -41,45 +41,42 @@ public class LoginActivity extends AppCompatActivity {
             String roomCodeInput = etRoomCode.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty() || roomCodeInput.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-            } else {
-                loginUser(email, password, roomCodeInput);
+                Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String userId = mAuth.getCurrentUser().getUid();
+
+                            db.collection("users").document(userId)
+                                    .get()
+                                    .addOnSuccessListener(doc -> {
+                                        if (doc.exists()) {
+                                            String savedRoomCode = doc.getString("roomCode");
+                                            if (savedRoomCode != null && savedRoomCode.equals(roomCodeInput)) {
+                                                // Save room code for ChatFragment
+                                                ChatFragment.CURRENT_ROOM = roomCodeInput;
+
+                                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(this, "Incorrect Room Code.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(this, "User data not found.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
         tvSignUp.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            startActivity(new Intent(this, SignUpActivity.class));
             finish();
-        });
-    }
-
-    private void loginUser(String email, String password, String roomCodeInput) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                String userId = mAuth.getCurrentUser().getUid();
-
-                db.collection("users").document(userId)
-                        .get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            if (documentSnapshot.exists()) {
-                                String savedRoomCode = documentSnapshot.getString("roomCode");
-
-                                if (savedRoomCode != null && savedRoomCode.equals(roomCodeInput)) {
-                                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Incorrect Room Code.", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(LoginActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> Toast.makeText(LoginActivity.this, "Failed to fetch user data.", Toast.LENGTH_SHORT).show());
-
-            } else {
-                Toast.makeText(LoginActivity.this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }

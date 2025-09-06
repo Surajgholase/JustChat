@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "title": "Sample headline 1",
+      "content": "This is a sample short description for article 1.",
+      "imageUrl": "https://via.placeholder.com/800x450.png?text=News+1",
+      "readMoreUrl": "https://example.com/article1"
+    },
+    {
+      "title": "Sample headline 2",
+      "content": "This is a sample short description for article 2.",
+      "imageUrl": "https://via.placeholder.com/800x450.png?text=News+2",
+      "readMoreUrl": "https://example.com/article2"
+    },
+    {
+      "title": "Sample headline 3",
+      "content": "This is a sample short description for article 3.",
+      "imageUrl": "https://via.placeholder.com/800x450.png?text=News+3",
+      "readMoreUrl": "https://example.com/article3"
+    }
+  ]
+}

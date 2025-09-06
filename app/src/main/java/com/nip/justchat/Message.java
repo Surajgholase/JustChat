@@ -2,22 +2,17 @@ package com.nip.justchat;
 
 public class Message {
     private String text;
-    private boolean isSentByMe;
-    private String time;
+    private String senderId;
+    private long timestamp;
 
-    public Message(String text, boolean isSentByMe, String time){
-        this.text = text;
-        this.isSentByMe = isSentByMe;
-        this.time = time;
-    }
-    public String getText(){
-        return text;
-    }
-    public boolean isSentByMe(){
-        return isSentByMe;
-    }
-    public String getTime(){
-        return time;
-    }
+    public Message() {}
 
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+
+    public String getSenderId() { return senderId; }
+    public void setSenderId(String senderId) { this.senderId = senderId; }
+
+    public long getTimestamp() { return timestamp; }
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 }

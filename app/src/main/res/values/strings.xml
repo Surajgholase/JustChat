@@ -2,4 +2,7 @@
     <string name="app_name">justtchat</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    <string name="news_api_key">58d9237b28c994a09631e09f80c4296d</string>-->
+    <string name="news_image">News Image</string>
+
 </resources>

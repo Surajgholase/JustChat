@@ -2,7 +2,6 @@ package com.nip.justchat;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,31 +13,34 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
-    BottomAppBar bottomAppBar;
-    ChatFragment chatFragment;
-    ProfileFragment profileFragment;
+    private BottomNavigationView bottomNavigationView;
+    private BottomAppBar bottomAppBar;
+    private ChatFragment chatFragment;
+    private ProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Initialize fragments
         chatFragment = new ChatFragment();
         profileFragment = new ProfileFragment();
 
+        // Find views
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomAppBar = findViewById(R.id.bottomAppBar);
 
+        // Bottom navigation item click listener
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.nav_chat) {
+            public boolean onNavigationItemSelected(@NonNull android.view.MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if (id == R.id.nav_chat) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.main_frame_layout, chatFragment)
                             .commit();
-                }
-                if (menuItem.getItemId() == R.id.nav_people) {
+                } else if (id == R.id.nav_people) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.main_frame_layout, profileFragment)
                             .commit();
@@ -47,10 +49,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Default fragment
+        // Set default selected fragment
         bottomNavigationView.setSelectedItemId(R.id.nav_chat);
 
-        // Hide bottom bar + FAB when keyboard is open
+        // Hide BottomAppBar + FAB when keyboard opens
         final View rootView = findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect r = new Rect();
@@ -58,17 +60,19 @@ public class HomeActivity extends AppCompatActivity {
             int screenHeight = rootView.getRootView().getHeight();
             int keypadHeight = screenHeight - r.bottom;
 
+            View fab = findViewById(R.id.fab); // assuming you have FAB in layout
+
             if (keypadHeight > screenHeight * 0.15) {
                 bottomAppBar.setVisibility(View.GONE);
-                findViewById(R.id.fab).setVisibility(View.GONE);
+                if (fab != null) fab.setVisibility(View.GONE);
             } else {
                 bottomAppBar.setVisibility(View.VISIBLE);
-                findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                if (fab != null) fab.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    // Called from ChatFragment
+    // Method called from ChatFragment to open profile
     public void openProfileFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_layout, profileFragment)

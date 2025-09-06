@@ -62,24 +62,24 @@ public class SignUpActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // Save user data to Firestore
                         Map<String, Object> user = new HashMap<>();
                         user.put("email", email);
-                        user.put("roomCode", roomCode);
+                        user.put("roomCode", roomCode); // store couple's room code
 
                         db.collection("users").document(userId)
                                 .set(user)
                                 .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(SignUpActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, "SignUp Successful!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                                     finish();
                                 })
                                 .addOnFailureListener(e ->
-                                        Toast.makeText(SignUpActivity.this, "Failed to save user data.", Toast.LENGTH_SHORT).show());
+                                        Toast.makeText(SignUpActivity.this, "Failed to save user: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                                );
 
                     } else {
-                        Toast.makeText(SignUpActivity.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-}
+};
